@@ -23,6 +23,9 @@ yarn-error.log*
 # local persistence
 .data/
 
+# recorded raw webm (keep mp4)
+evidence/video/
+
 # vercel
 .vercel
 
