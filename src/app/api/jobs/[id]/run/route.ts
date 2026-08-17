@@ -4,7 +4,7 @@ import { hasGeminiKey } from "@/lib/config";
 import { getJob } from "@/lib/store";
 
 export const runtime = "nodejs";
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 export async function POST(
   _request: Request,

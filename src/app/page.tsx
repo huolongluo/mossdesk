@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DemoButton } from "@/components/DemoButton";
 
 export default function HomePage() {
   return (
@@ -13,8 +14,9 @@ export default function HomePage() {
           auditor refuses to ship.
         </p>
         <div className="hero-cta">
+          <DemoButton />
           <Link href="/start" className="btn-solid">
-            Run a live job
+            Hire with your own mess
           </Link>
           <Link href="/ops" className="btn-ghost">
             Open the ops desk

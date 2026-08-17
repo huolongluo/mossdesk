@@ -5,7 +5,7 @@
 **Project name:** MossDesk  
 **Tagline:** Gemini agents that run a small-business front office — they price the work, do the work, and collect.
 
-**Built with:** Gemini API (`gemini-2.5-flash`), Google Cloud Run, Next.js, Stripe
+**Built with:** Gemini API (`gemini-3.5-flash-lite`), Google Cloud Run, Next.js, Stripe
 
 ---
 
@@ -64,7 +64,7 @@ If the site is private, there is no login wall on the public demo.
 - **GitHub:** https://github.com/huolongluo/mossdesk  
 - **Video:** _(YouTube/Vimeo, ≤3 min — follow VIDEO_SCRIPT.md)_  
 - **Google Cloud product:** Cloud Run  
-- **Gemini model:** gemini-2.5-flash  
+- **Gemini model:** gemini-3.5-flash-lite  
 
 ## Circle Agentic Economy Prize
 

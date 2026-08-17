@@ -1,9 +1,23 @@
+import { ProxyAgent, setGlobalDispatcher } from "undici";
 import { GoogleGenAI } from "@google/genai";
 import { GEMINI_MODEL, isVertex } from "@/lib/config";
 
 let client: GoogleGenAI | null = null;
+let proxyInstalled = false;
+
+function installOutboundProxy() {
+  if (proxyInstalled) return;
+  const proxy =
+    process.env.MOSSDESK_PROXY?.trim() ||
+    process.env.HTTPS_PROXY?.trim() ||
+    process.env.https_proxy?.trim();
+  if (!proxy) return;
+  setGlobalDispatcher(new ProxyAgent(proxy));
+  proxyInstalled = true;
+}
 
 export function getGemini() {
+  installOutboundProxy();
   if (client) return client;
   if (isVertex()) {
     client = new GoogleGenAI({
@@ -29,15 +43,28 @@ export async function generateJson<T>(args: {
 }): Promise<{ data: T; text: string; latencyMs: number; model: string }> {
   const ai = getGemini();
   const started = Date.now();
-  const response = await ai.models.generateContent({
-    model: GEMINI_MODEL,
-    contents: `${args.system}\n\n---\n\n${args.user}`,
-    config: {
-      temperature: 0.35,
-      responseMimeType: "application/json",
-    },
-  });
-  const text = response.text ?? "";
+  let lastError = "Gemini call failed";
+  let text = "";
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: GEMINI_MODEL,
+        contents: `${args.system}\n\n---\n\n${args.user}`,
+        config: {
+          temperature: 0.35,
+          responseMimeType: "application/json",
+        },
+      });
+      text = response.text ?? "";
+      lastError = "";
+      break;
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : String(err);
+      const busy = lastError.includes("UNAVAILABLE") || lastError.includes("high demand") || lastError.includes("503");
+      if (!busy || attempt === 4) throw err;
+      await new Promise((r) => setTimeout(r, 1500 * attempt));
+    }
+  }
   const latencyMs = Date.now() - started;
   let data: T;
   try {

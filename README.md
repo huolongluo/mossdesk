@@ -27,7 +27,7 @@ Every decision is written to `.data/jobs/*.json` and shown on `/ops`. Humans do 
 
 ## Stack (rule-compliant)
 
-- **Gemini API** (`gemini-2.5-flash` via `@google/genai`) — required LLM calls
+- **Gemini API** (`gemini-3.5-flash-lite` via `@google/genai`) — required LLM calls
 - **Google Cloud Run** — production host (`Dockerfile`)
 - Optional **Vertex AI** if `GEMINI_PROVIDER=vertex`
 - Stripe Checkout for arms-length revenue (optional locally, required for prize evidence)

@@ -7,7 +7,7 @@ export const PRICE_CEILING_USD = 249;
 export const ESCALATE_ABOVE_USD = 199;
 
 export const GEMINI_MODEL =
-  process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash";
+  process.env.GEMINI_MODEL?.trim() || "gemini-3.5-flash-lite";
 
 export function appUrl(requestUrl?: string) {
   if (process.env.NEXT_PUBLIC_APP_URL) {
