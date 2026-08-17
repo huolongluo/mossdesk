@@ -1,0 +1,40 @@
+# Deploy:
+#   gcloud run deploy mossdesk --source . --region us-central1 --allow-unauthenticated \
+#     --set-env-vars GEMINI_API_KEY=...,NEXT_PUBLIC_APP_URL=https://YOUR_URL
+#
+# This file is the Google Cloud product surface for the XPRIZE "use at least one
+# Google Cloud product" requirement (Cloud Run). Vertex AI is an optional Gemini path.
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: mossdesk
+  annotations:
+    run.googleapis.com/ingress: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "5"
+        run.googleapis.com/cpu-throttling: "false"
+        run.googleapis.com/startup-cpu-boost: "true"
+    spec:
+      containerConcurrency: 20
+      timeoutSeconds: 300
+      containers:
+        - image: gcr.io/PROJECT_ID/mossdesk
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GEMINI_MODEL
+              value: gemini-2.5-flash
+            - name: DATA_DIR
+              value: /tmp/mossdesk-data
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /api/health
+            initialDelaySeconds: 10
