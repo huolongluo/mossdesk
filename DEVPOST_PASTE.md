@@ -6,8 +6,8 @@ Use this on https://xprize.devpost.com/ — category **Small Business Services**
 **Tagline:** Gemini agents that run a small-business front office — they price the work, do the work, and collect.
 
 **GitHub:** https://github.com/huolongluo/mossdesk  
-**Website / testing:** http://localhost:3000 (Cloud Run still needs your GCP login)  
-**Video file (upload to YouTube/Vimeo):** `evidence/mossdesk-demo.mp4` (28s product walkthrough)  
+**Website / testing:** http://localhost:3000 (Cloud Run still needs `gcloud auth login`)  
+**Video file:** `evidence/mossdesk-demo.mp4` (28s). Upload this file — do **not** reuse the existing `mosskeep demo` video (`youtu.be/wsSvAFF-BV8`).  
 **Built with:** Gemini API (`gemini-3.5-flash-lite`), Next.js, Stripe-ready checkout, Cloud Run Dockerfile
 
 ## Elevator

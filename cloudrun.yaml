@@ -27,7 +27,7 @@ spec:
             - containerPort: 8080
           env:
             - name: GEMINI_MODEL
-              value: gemini-2.5-flash
+              value: gemini-3.5-flash-lite
             - name: DATA_DIR
               value: /tmp/mossdesk-data
           resources:
