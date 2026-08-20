@@ -6,6 +6,8 @@ import {
 } from "@/lib/config";
 import { generateJson } from "@/lib/gemini";
 import { saveJob } from "@/lib/store";
+import { buildInvoiceParams } from "@/lib/chain";
+import { issueInvoiceOnChain } from "@/lib/xlayer";
 import type {
   AgentName,
   AuditorOutput,
@@ -83,6 +85,7 @@ export async function runFirm(job: Job): Promise<Job> {
       job.status = "awaiting_payment";
       job.payment.status = "invoiced";
       job.payment.amountUsd = job.pricing?.priceUsd ?? PRICE_FLOOR_USD;
+      await mintReceivable(job);
     }
     job.currentAgent = null;
     await saveJob(job);
@@ -201,6 +204,7 @@ async function runCollector(job: Job) {
     system: `${FIRM}
 Role: COLLECTOR. You decide how MossDesk gets paid for THIS job, and you draft the dunning sequence if they stall.
 Policy: due_on_delivery unless the customer is clearly cash-tight, then net7. Never waive unless takeJob was borderline charity — default waive=false.
+Settlement: the invoice is minted as an AI-issued trade receivable on X Layer and paid in OKB. Say that plainly in invoiceMemo.
 Schema:
 {
   "terms": "due_on_delivery" | "net7",
@@ -260,6 +264,52 @@ Schema:
     { model, latencyMs },
   );
   await saveJob(job);
+}
+
+async function mintReceivable(job: Job) {
+  const params = buildInvoiceParams(job);
+  job.payment.chain = {
+    ...params,
+    status: "ready",
+  };
+  const started = Date.now();
+  try {
+    const issued = await issueInvoiceOnChain(params);
+    if (issued?.invoiceId && issued.invoiceId !== "0") {
+      job.payment.chain.invoiceId = issued.invoiceId;
+      job.payment.chain.status = "issued";
+      if (issued.txHash !== "0x") {
+        job.payment.chain.issueTxHash = issued.txHash;
+      }
+      log(
+        job,
+        "collector",
+        "MINT_RWA",
+        `Invoice #${issued.invoiceId} issued on X Layer testnet`,
+        issued,
+        { model: "xlayer-1952", latencyMs: Date.now() - started },
+      );
+      return;
+    }
+  } catch (err) {
+    log(
+      job,
+      "collector",
+      "RWA_RELAY_DEFERRED",
+      err instanceof Error ? err.message : "Relayer could not mint; wallet will issueAndPay",
+      { error: err instanceof Error ? err.message : String(err) },
+      { model: "xlayer-1952", latencyMs: Date.now() - started },
+    );
+    return;
+  }
+  log(
+    job,
+    "collector",
+    "RWA_READY",
+    "Receivable params bound. Customer wallet will mint and settle on X Layer.",
+    params,
+    { model: "xlayer-1952", latencyMs: Date.now() - started },
+  );
 }
 
 function clampPrice(n: number) {

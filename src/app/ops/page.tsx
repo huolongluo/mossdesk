@@ -7,12 +7,11 @@ export default async function OpsPage() {
   const snap = await opsSnapshot();
   return (
     <section className="section">
-      <p className="kicker">Production ops</p>
+      <p className="kicker">Production ops · X Layer</p>
       <h1>The firm, as it actually ran.</h1>
       <p className="lede">
-        Every Gemini decision is persisted. This is the evidence desk for
-        judges: jobs, decisions, shipped work, escalations, and only Stripe
-        `paid` counts as revenue.
+        Every Gemini decision is persisted. Settlements are verified against
+        InvoiceSettled on X Layer testnet — not a demo marker.
       </p>
       <div className="grid-3">
         <div className="stat">
@@ -24,8 +23,8 @@ export default async function OpsPage() {
           <p className="muted">Agent decisions</p>
         </div>
         <div className="stat">
-          <h3>${snap.revenueUsd}</h3>
-          <p className="muted">Arms-length revenue (Stripe)</p>
+          <h3>{snap.onchainSettled}</h3>
+          <p className="muted">Settled on X Layer</p>
         </div>
         <div className="stat">
           <h3>{snap.shipped}</h3>
@@ -36,8 +35,8 @@ export default async function OpsPage() {
           <p className="muted">Escalated to human</p>
         </div>
         <div className="stat">
-          <h3>${snap.demoUsd}</h3>
-          <p className="muted">Demo markers (not revenue)</p>
+          <h3>${snap.revenueUsd}</h3>
+          <p className="muted">Verified paid (USD face)</p>
         </div>
       </div>
       <div className="card" style={{ marginTop: 20, overflowX: "auto" }}>
@@ -48,6 +47,7 @@ export default async function OpsPage() {
               <th>Business</th>
               <th>Status</th>
               <th>Price</th>
+              <th>Chain</th>
               <th>Last decision</th>
             </tr>
           </thead>
@@ -63,6 +63,15 @@ export default async function OpsPage() {
                   </td>
                   <td>{job.status}</td>
                   <td>${job.payment.amountUsd || 0}</td>
+                  <td className="mono">
+                    {job.payment.chain?.status === "settled"
+                      ? `paid #${job.payment.chain.invoiceId || "?"}`
+                      : job.payment.chain?.status === "issued"
+                        ? `minted #${job.payment.chain.invoiceId}`
+                        : job.payment.chain
+                          ? "ready"
+                          : "—"}
+                  </td>
                   <td>
                     {last ? (
                       <>
@@ -80,7 +89,7 @@ export default async function OpsPage() {
             })}
             {snap.recent.length === 0 ? (
               <tr>
-                <td colSpan={5} className="muted">
+                <td colSpan={6} className="muted">
                   No jobs yet. <Link href="/start">Hire the firm</Link>.
                 </td>
               </tr>

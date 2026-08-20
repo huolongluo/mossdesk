@@ -1,33 +1,31 @@
-# Video script (≤ 3:00) — MossDesk
+# Video script (≤ 3:00) — MossDesk × X Layer
 
-Record in English. Show the live product, not slides. Do not use copyrighted music.
+Record in English or Chinese. Show the live product. No copyrighted music.
 
-**0:00–0:18 · The problem**  
-On camera or VO: “Small shops do not have a front office. Quotes live in WhatsApp. Invoices die in a notebook.”  
-Show a messy example (bakery / plumber preset).
+**0:00–0:20 · The problem**  
+“Small shops do not have a front office. Quotes live in WhatsApp. Invoices die in a notebook. That invoice is a real-world asset — and it is still a screenshot.”
 
-**0:18–0:35 · The claim**  
-“MossDesk is a Gemini-operated firm. Five agents take the job, set the price, do the work, and collect. Humans only handle exceptions.”  
-Cut to homepage, then `/start`.
+**0:20–0:40 · The claim**  
+“MossDesk is a Gemini-operated firm. Five agents take the job, set the price, do the work. Then they mint the invoice as a receivable on X Layer and collect in OKB.”  
+Cut to homepage, then `/xlayer`.
 
-**0:35–1:40 · Live run (the money shot)**  
-- Fill `/start` (or preset) and submit.  
-- Click **Dispatch the firm**.  
-- Stay on the job page while Scout → Pricer → Operator → Collector → Auditor land.  
-- Zoom the decision tape: model name, latency, SET_PRICE with a dollar amount.  
-- Scroll the playbook: a real script they could send today.
+**0:40–1:40 · Live run**  
+- Run the bakery demo or `/start`.  
+- Stay on the job page: Scout → Pricer → Operator → Collector → Auditor.  
+- Zoom SET_PRICE with a dollar amount.  
+- Zoom RWA_READY / MINT_RWA and the tapeHash.
 
-Say: “The Pricer just bound a price. I did not type it.”
+Say: “The Pricer bound the price. I did not type it. The Collector bound a receivable.”
 
-**1:40–2:15 · Ops, not a demo**  
-Open `/ops`. Point at jobs, decision count, shipped vs escalated.  
-Open one JSON log or the health endpoint if it helps.  
-“This is production: every decision persisted.”
+**1:40–2:20 · Pay on X Layer**  
+Open `/pay/[id]`. Connect wallet. Add X Layer testnet. Pay OKB.  
+Open the explorer on InvoiceSettled.  
+“This is not a demo marker. This is chain 1952.”
 
-**2:15–2:40 · Money**  
-Open `/pay/[id]`. If Stripe is live, complete a **real third-party** payment (not your own card if you can avoid it). Show the paid state.  
-If you only have a Stripe dashboard screenshot, show it here and say the amount and that it is arms-length.
+**2:20–2:45 · Ops**  
+Open `/ops`. Jobs, decisions, settled on X Layer.  
+“Every decision persisted. Every payment verified against the contract.”
 
-**2:40–3:00 · Close**  
-“Category: Small Business Services. Google Cloud Run in production. Gemini on every job. The firm is already at work.”  
-End on `/ops` or the paid playbook, not a logo sting.
+**2:45–3:00 · Close**  
+“Category: AI-RWA. Gemini on every job. Settlement on X Layer. The firm is already at work.”  
+End on explorer or `/ops`.

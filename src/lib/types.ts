@@ -115,5 +115,18 @@ export type Job = {
     status: "unpriced" | "invoiced" | "paid" | "waived" | "demo_paid";
     stripeSessionId?: string;
     paidAt?: string;
+    chain?: ChainInvoice;
   };
+};
+
+export type ChainInvoice = {
+  jobIdBytes32: `0x${string}`;
+  amountWei: string;
+  memo: string;
+  tapeHash: `0x${string}`;
+  status: "ready" | "issued" | "settled";
+  invoiceId?: string;
+  issueTxHash?: `0x${string}`;
+  settleTxHash?: `0x${string}`;
+  payer?: `0x${string}`;
 };

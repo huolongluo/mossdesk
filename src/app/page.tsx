@@ -1,37 +1,51 @@
 import Link from "next/link";
 import { DemoButton } from "@/components/DemoButton";
+import { getDeployedAddress } from "@/lib/deployment";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const contract = await getDeployedAddress();
   return (
     <>
       <section className="hero">
-        <p className="kicker">Small Business Services · Gemini-operated firm</p>
-        <h1>A front office that actually decides.</h1>
+        <p className="kicker">Build X · AI Season · AI-RWA on X Layer</p>
+        <h1>Gemini agents that mint invoices on-chain.</h1>
         <p className="lede">
-          MossDesk is not a chatbot bolted onto a form. It is a professional
-          firm run by five Gemini agents: they take the mess, set the price,
-          write the operating package, invoice, and only wake a human when the
-          auditor refuses to ship.
+          MossDesk is a professional firm run by five Gemini agents. They take
+          a shop&apos;s mess, set a real price, ship a 7-day operating package,
+          then mint that invoice as a trade receivable on X Layer and collect
+          in OKB. Humans only handle exceptions.
         </p>
         <div className="hero-cta">
           <DemoButton />
           <Link href="/start" className="btn-solid">
             Hire with your own mess
           </Link>
-          <Link href="/ops" className="btn-ghost">
-            Open the ops desk
+          <Link href="/xlayer" className="btn-ghost">
+            How the RWA works
           </Link>
         </div>
+        {contract ? (
+          <p className="mono muted" style={{ marginTop: 18 }}>
+            X Layer testnet · {contract}
+          </p>
+        ) : (
+          <p className="muted" style={{ marginTop: 18 }}>
+            Contract deploy pending — the product loop still runs; settlement
+            lights up once MossDeskInvoice is on chain 1952.
+          </p>
+        )}
       </section>
 
       <section className="section" id="how">
         <p className="kicker">The business</p>
-        <h2>Local shops drown in follow-up. We sell the missing operator.</h2>
+        <h2>Local shops drown in follow-up. We settle the claim on X Layer.</h2>
         <p className="muted">
           Bakeries with unpaid catering invoices. Plumbers quoting over
           WhatsApp. Gyms with no-show leaks. They do not need another dashboard.
-          They need someone who will decide what to say, what to charge, and
-          what happens on day 3 if nobody replies.
+          They need someone who will decide what to say, what to charge, and a
+          public receivable when it is time to collect.
         </p>
         <div className="flow">
           <article>
@@ -43,15 +57,18 @@ export default function HomePage() {
             <p>Pricer sets a real USD price under policy. Decline if the job is legal or medical advice.</p>
           </article>
           <article>
-            <h3>03 · Deliver & collect</h3>
-            <p>Operator ships a 7-day playbook. Collector invoices. Auditor ships or escalates.</p>
+            <h3>03 · Mint & collect</h3>
+            <p>
+              Auditor ships. Collector binds a receivable. Customer pays OKB on
+              X Layer. InvoiceSettled is the receipt.
+            </p>
           </article>
         </div>
       </section>
 
       <section className="section" id="agents">
         <p className="kicker">AI-native operations</p>
-        <h2>Five agents. Five binding decisions.</h2>
+        <h2>Five agents. One on-chain receivable.</h2>
         <div className="grid-2">
           <div className="card">
             <h3>Scout</h3>
@@ -67,23 +84,30 @@ export default function HomePage() {
           </div>
           <div className="card">
             <h3>Collector + Auditor</h3>
-            <p>Payment terms and dunning are decided, then a quality gate: SHIP, ESCALATE, or REJECT.</p>
+            <p>
+              Terms, dunning, quality gate — then the decision tape is hashed
+              into MossDeskInvoice on X Layer.
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <p className="kicker">Category impact</p>
-        <h2>Every local business gets an operator, not a prompt box.</h2>
+      <section className="section" id="rwa">
+        <p className="kicker">AI-RWA</p>
+        <h2>The invoice is the asset.</h2>
         <p className="lede">
-          Professional services used to mean a consultant at $200/hour who
-          disappears after the slide deck. MossDesk productizes that operator
-          into a priced job with an audit trail — so a two-person shop can buy
-          the same discipline a bigger firm takes for granted.
+          A receivable is a claim on cash for work already scoped. That is a
+          real-world asset. MossDesk issues it when Gemini is done deciding,
+          not when a founder fills a mint form. Judges can open the explorer,
+          read InvoiceIssued / InvoiceSettled, and match the tapeHash back to
+          the ops log.
         </p>
         <div className="hero-cta">
           <Link href="/start" className="btn-gold">
             Start with a messy WhatsApp thread
+          </Link>
+          <Link href="/ops" className="btn-ghost">
+            Open the ops desk
           </Link>
         </div>
       </section>

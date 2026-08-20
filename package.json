@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start --port ${PORT:-8080}",
     "lint": "eslint",
-    "demo:video": "node scripts/record-demo.mjs"
+    "demo:video": "node scripts/record-demo.mjs",
+    "chain:compile": "node scripts/compile-invoice.mjs",
+    "chain:deploy": "node scripts/deploy-xlayer.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.16.0",
@@ -17,6 +19,8 @@
     "react-dom": "19.2.8",
     "stripe": "^22.4.0",
     "undici": "^8.10.0",
+    "viem": "^2.38.0",
+    "server-only": "^0.0.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -27,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
     "playwright": "^1.62.1",
+    "solc": "^0.8.28",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

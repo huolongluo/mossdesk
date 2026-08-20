@@ -32,6 +32,11 @@ export function hasStripe() {
   return Boolean(process.env.STRIPE_SECRET_KEY?.trim());
 }
 
+export function hasXLayerInvoice() {
+  const addr = process.env.NEXT_PUBLIC_XLAYER_INVOICE_ADDRESS?.trim() || "";
+  return /^0x[a-fA-F0-9]{40}$/.test(addr);
+}
+
 export const INDUSTRIES = [
   "Cafe / bakery / restaurant",
   "Trades (plumber, electrician, HVAC)",

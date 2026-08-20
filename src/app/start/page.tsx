@@ -7,8 +7,8 @@ export default function StartPage() {
       <h1>Tell the firm the mess.</h1>
       <p className="lede">
         Scout, Pricer, Operator, Collector, and Auditor will run in sequence.
-        You will see every decision land in the log — including the price they
-        choose to charge you.
+        When they ship, the invoice is bound as an X Layer receivable you pay
+        in OKB. You will see every decision — including the price they charge.
       </p>
       <StartForm />
     </section>

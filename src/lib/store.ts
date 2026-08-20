@@ -95,9 +95,11 @@ export async function opsSnapshot() {
   const paid = jobs.filter(
     (j) => j.payment.status === "paid" || j.payment.status === "demo_paid",
   );
+  const onchain = jobs.filter((j) => j.payment.chain?.status === "settled");
   const revenueUsd = paid
     .filter((j) => j.payment.status === "paid")
     .reduce((sum, j) => sum + (j.payment.amountUsd || 0), 0);
+  const onchainSettled = onchain.length;
   const demoUsd = paid
     .filter((j) => j.payment.status === "demo_paid")
     .reduce((sum, j) => sum + (j.payment.amountUsd || 0), 0);
@@ -113,6 +115,7 @@ export async function opsSnapshot() {
     escalated,
     revenueUsd,
     demoUsd,
+    onchainSettled,
     payingCustomers: new Set(
       jobs
         .filter((j) => j.payment.status === "paid")

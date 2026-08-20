@@ -161,8 +161,24 @@ export function JobLive({ initial }: { initial: Job }) {
       {job.status === "awaiting_payment" || job.status === "delivered" ? (
         <div className="hero-cta" style={{ marginTop: 18 }}>
           <Link className="btn-gold" href={`/pay/${job.id}`}>
-            Pay ${job.payment.amountUsd} and unlock
+            Settle ${job.payment.amountUsd} on X Layer
           </Link>
+        </div>
+      ) : null}
+
+      {job.payment.chain ? (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h3>X Layer receivable</h3>
+          <p>
+            <span className="pill">{job.payment.chain.status}</span>{" "}
+            {job.payment.chain.invoiceId
+              ? `Invoice #${job.payment.chain.invoiceId}`
+              : "Ready to mint on pay"}
+          </p>
+          <p className="mono muted">tape {job.payment.chain.tapeHash}</p>
+          {job.payment.chain.settleTxHash ? (
+            <p className="mono">settled {job.payment.chain.settleTxHash}</p>
+          ) : null}
         </div>
       ) : null}
 

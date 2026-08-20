@@ -14,11 +14,11 @@ export default async function PayPage({
   if (!job) notFound();
   return (
     <section className="section">
-      <p className="kicker">Collector</p>
-      <h1>Pay the invoice the agent wrote.</h1>
+      <p className="kicker">Collector · X Layer</p>
+      <h1>Pay the invoice the agent minted.</h1>
       <p className="lede">
-        Price was set by the Pricer, terms by the Collector. Humans do not
-        re-quote at checkout.
+        Price was set by the Pricer. The receivable lives on X Layer testnet.
+        Humans do not re-quote at checkout — you settle in OKB.
       </p>
       <PayPanel job={job} />
     </section>

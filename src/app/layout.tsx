@@ -16,9 +16,9 @@ const body = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "MossDesk — Gemini agents that run a small-business front office",
+  title: "MossDesk — Gemini agents that mint invoices on X Layer",
   description:
-    "A real professional firm operated by Gemini. Agents intake the mess, set the price, deliver a 7-day operating package, invoice, and only escalate exceptions.",
+    "A professional firm operated by Gemini. Agents intake the mess, set the price, deliver a 7-day package, mint the invoice as an AI-issued receivable on X Layer, and collect in OKB.",
 };
 
 export default function RootLayout({
@@ -35,7 +35,8 @@ export default function RootLayout({
           </Link>
           <nav className="nav">
             <a href="/#how">How it runs</a>
-            <a href="/#agents">Agents</a>
+            <a href="/#rwa">AI-RWA</a>
+            <Link href="/xlayer">X Layer</Link>
             <Link href="/ops">Ops log</Link>
             <Link href="/start" className="btn-solid">
               Hire the firm
@@ -44,8 +45,8 @@ export default function RootLayout({
         </header>
         <main className="flex-1">{children}</main>
         <footer className="site-footer">
-          <span>MossDesk · Build with Gemini XPRIZE · Small Business Services</span>
-          <span>Gemini prices, delivers, and collects. Humans handle exceptions.</span>
+          <span>MossDesk · OKX Build X AI Season · AI-RWA on X Layer</span>
+          <span>Gemini prices the work. X Layer settles the receivable.</span>
         </footer>
       </body>
     </html>

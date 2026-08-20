@@ -302,6 +302,15 @@ textarea {
   line-height: 1.5;
 }
 
+.chain-meta {
+  margin: 1rem 0;
+}
+
+.chain-meta a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 @media (max-width: 860px) {
   .flow,
   .grid-3,
