@@ -13,16 +13,26 @@ MossDesk
 MossDesk is a Gemini-operated front office for local shops. Five agents intake the mess, set a binding USD price, ship a 7-day operating package, then mint that invoice as an AI-issued trade receivable on X Layer and collect in OKB. The decision tape is hashed on-chain (tapeHash) so judges can audit why that amount exists. This is AI-RWA: a real invoice, issued by agents, settled on X Layer testnet (chain 1952), with a mainnet path after the hackathon.
 
 **Project URL**  
-_(public app URL — Vercel / Cloud Run. Localhost will be rejected.)_
+https://mossdesk.vercel.app
 
 **Github**  
 https://github.com/huolongluo/mossdesk
 
 **Email / Telegram / X handle**  
-_(your accounts)_
+huolongluo@gmail.com · https://t.me/leo16883 · @huolongluo1
+
+**Form submitted:** 2026-08-21 · Google recorded the response.
 
 **X (Twitter) Post URL**  
-_(the tweet below, posted from the project account, must @XLayerOfficial)_
+Posted 2026-08-21 from @huolongluo1 (copy status URL from profile if you resubmit the form).
+
+**Live X Layer testnet contract**  
+`0x9ea023e3d77ad9f70f93a8806f5b0f638e1648de`  
+https://www.okx.com/web3/explorer/xlayer-test/address/0x9ea023e3d77ad9f70f93a8806f5b0f638e1648de
+
+**Demo job to settle**  
+https://mossdesk.vercel.app/pay/9f884843-be4d-4829-819e-bcaaa670c9eb
+https://mossdesk.vercel.app/job/9f884843-be4d-4829-819e-bcaaa670c9eb
 
 ## Tweet (post from the project X account)
 

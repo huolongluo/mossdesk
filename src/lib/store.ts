@@ -47,35 +47,49 @@ export async function saveJob(job: Job) {
   await upsertIndex(job);
 }
 
-export async function getJob(id: string): Promise<Job | null> {
+function seedJobsDir() {
+  return path.join(process.cwd(), "data", "jobs");
+}
+
+function seedJobPath(id: string) {
+  return path.join(seedJobsDir(), `${id}.json`);
+}
+
+async function readJobFile(file: string): Promise<Job | null> {
   try {
-    const raw = await fs.readFile(jobPath(id), "utf8");
+    const raw = await fs.readFile(file, "utf8");
     return JSON.parse(raw) as Job;
   } catch {
     return null;
   }
 }
 
+export async function getJob(id: string): Promise<Job | null> {
+  return (await readJobFile(jobPath(id))) || (await readJobFile(seedJobPath(id)));
+}
+
 export async function listJobs(): Promise<Job[]> {
+  const byId = new Map<string, Job>();
+  try {
+    const files = await fs.readdir(seedJobsDir());
+    for (const file of files.filter((f) => f.endsWith(".json"))) {
+      const job = await readJobFile(path.join(seedJobsDir(), file));
+      if (job) byId.set(job.id, job);
+    }
+  } catch {
+    /* no seed desk */
+  }
   await ensureDir(jobsDir());
   try {
-    const raw = await fs.readFile(indexPath(), "utf8");
-    const ids = JSON.parse(raw) as string[];
-    const jobs = await Promise.all(ids.map((id) => getJob(id)));
-    return jobs
-      .filter((j): j is Job => Boolean(j))
-      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-  } catch {
     const files = await fs.readdir(jobsDir());
-    const jobs = await Promise.all(
-      files
-        .filter((f) => f.endsWith(".json"))
-        .map((f) => getJob(f.replace(/\.json$/, ""))),
-    );
-    return jobs
-      .filter((j): j is Job => Boolean(j))
-      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    for (const file of files.filter((f) => f.endsWith(".json"))) {
+      const job = await readJobFile(path.join(jobsDir(), file));
+      if (job) byId.set(job.id, job);
+    }
+  } catch {
+    /* empty live desk */
   }
+  return [...byId.values()].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 async function upsertIndex(job: Job) {

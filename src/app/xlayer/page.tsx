@@ -81,6 +81,9 @@ export default async function XLayerPage() {
         <Link href="/start" className="btn-gold">
           Dispatch a job and settle it
         </Link>
+        <Link href="/pay/9f884843-be4d-4829-819e-bcaaa670c9eb" className="btn-ghost">
+          Pay the bakery invoice
+        </Link>
         <Link href="/ops" className="btn-ghost">
           Ops log
         </Link>

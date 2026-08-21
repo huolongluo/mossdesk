@@ -33,7 +33,27 @@ export async function GET(
         functionName: "invoiceIdByJob",
         args: [params.jobIdBytes32],
       });
-      if (idOnChain > BigInt(0)) onchainId = idOnChain.toString();
+      if (idOnChain > BigInt(0)) {
+        onchainId = idOnChain.toString();
+        const invoice = await publicXLayer().readContract({
+          address,
+          abi: INVOICE_ABI,
+          functionName: "getInvoice",
+          args: [idOnChain],
+        });
+        const paidAt =
+          typeof invoice === "object" && invoice !== null && "paidAt" in invoice
+            ? (invoice as { paidAt: bigint }).paidAt
+            : BigInt(0);
+        if (paidAt && BigInt(paidAt) > BigInt(0)) {
+          job.payment.chain = {
+            ...params,
+            ...job.payment.chain,
+            status: "settled",
+            invoiceId: onchainId,
+          };
+        }
+      }
     } catch {
       /* RPC optional */
     }

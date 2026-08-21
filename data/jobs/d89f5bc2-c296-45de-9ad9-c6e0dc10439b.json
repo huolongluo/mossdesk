@@ -1,0 +1,367 @@
+{
+  "id": "d89f5bc2-c296-45de-9ad9-c6e0dc10439b",
+  "createdAt": "2026-08-17T11:49:35.576Z",
+  "updatedAt": "2026-08-17T11:49:51.997Z",
+  "status": "awaiting_payment",
+  "currentAgent": null,
+  "customer": {
+    "name": "Mei Chen",
+    "email": "mei@jingxiubakery.example",
+    "businessName": "Jingxiu Bakery",
+    "industry": "Cafe / bakery / restaurant",
+    "location": "Chengdu, Jingxiu Road"
+  },
+  "problem": "We cater office breakfasts but half the invoices sit unpaid for 3 weeks. I chase on WeChat at midnight and still feel rude. Need a polite collection sequence and a rule for when to stop cooking for non-payers.",
+  "constraints": "Staff of 2, no discounts, Chinese and English customers",
+  "logs": [
+    {
+      "id": "b9e0bfbe-371d-4943-8dfe-252e5fb0bb1f",
+      "at": "2026-08-17T11:49:37.842Z",
+      "agent": "scout",
+      "decision": "INTAKE_COMPLETE",
+      "rationale": "Delayed B2B invoice payments causing cash flow drag, compounded by the emotional burden of manual midnight WeChat follow-ups.",
+      "payload": {
+        "businessOneLiner": "Jingxiu Bakery is a boutique cafe and bakery on Jingxiu Road in Chengdu providing office breakfast catering services.",
+        "customerWho": "Mei Chen, owner-operator managing production and client relations with a lean staff of two.",
+        "corePain": "Delayed B2B invoice payments causing cash flow drag, compounded by the emotional burden of manual midnight WeChat follow-ups.",
+        "constraints": [
+          "Staff of 2 with limited administrative bandwidth",
+          "No price discounts or margin concessions",
+          "Must communicate professionally in both Chinese and English"
+        ],
+        "successLooksLike": "An automated, polite bilingual collection sequence that reduces overdue invoices to under 7 days, paired with a firm prepayment policy to stop production for chronic non-payers.",
+        "riskFlags": [
+          "High exposure to cash flow crunches due to 3-week payment delays on perishable goods",
+          "Operational burnout from mixing personal messaging (WeChat) with business debt collection at midnight"
+        ]
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 2258
+    },
+    {
+      "id": "f0a8c0aa-4d1e-46f3-88ee-022634e2cbf0",
+      "at": "2026-08-17T11:49:39.374Z",
+      "agent": "pricer",
+      "decision": "SET_PRICE",
+      "rationale": "Complexity is rated 3 due to the need for bilingual (Chinese/English) templates and a clear credit policy for B2B catering. Fits the desk_sprint SKU as it is a one-time deliverable for collection workflows and prepayment rules.",
+      "payload": {
+        "takeJob": true,
+        "rejectReason": "",
+        "sku": "desk_sprint",
+        "priceUsd": 129,
+        "complexity": 3,
+        "marginNote": "Well within gross margin targets for a one-time operations setup involving bilingual templates and policy design.",
+        "rationale": "Complexity is rated 3 due to the need for bilingual (Chinese/English) templates and a clear credit policy for B2B catering. Fits the desk_sprint SKU as it is a one-time deliverable for collection workflows and prepayment rules."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 1527
+    },
+    {
+      "id": "4ed5e0ec-a7be-4133-a762-d8eb8e8bcaaa",
+      "at": "2026-08-17T11:49:48.803Z",
+      "agent": "operator",
+      "decision": "PACKAGE_READY",
+      "rationale": "锦绣面包房 B2B 早餐外送账款催收与预付费管理系统",
+      "payload": {
+        "playbookTitle": "锦绣面包房 B2B 早餐外送账款催收与预付费管理系统",
+        "situationSummary": "锦绣面包房位于成都锦绣路，主要为周边写字楼提供早餐外送与团餐服务。目前面临严重的企业客户账款拖欠问题（平均拖欠长达3周），且店主梅姐长期在深夜通过微信私信催款，不仅于事无补，还增加了运营焦虑。本次7天执行方案旨在建立标准化的双语账款催收序列，并确立严格的“无预付款不备货”信用规则，彻底解决现金流占用与深夜沟通的痛点。",
+        "operatingRules": [
+          "所有新企业客户首次订单及后续常规订单，必须在配送前1个工作日完成 100% 预付款支付，方可排单生产。",
+          "取消所有深夜微信催款；所有催款与对账函严格在工作日上午 10:00 至下午 17:00 之间通过微信或邮件发送。",
+          "逾期超过 7 天的客户自动暂停后续早餐配送资格，直至结清历史账款并转为现结或预付模式。",
+          "保持双语沟通标准：根据客户签约时使用的语言（中文/英文），严格对应发送标准模板，杜绝情绪化沟通。"
+        ],
+        "scripts": [
+          {
+            "situation": "账单到期当日友好提醒（中文）",
+            "channel": "whatsapp",
+            "message": "尊敬的【客户名称】团队：您好！锦绣面包房本周早餐外送已全部送达。本期账单金额共计 ¥【金额】（详见附件对账单）。按照财务惯例，请于今日内安排对公转账。账号为：【银行账号/支付宝/微信】。汇款后请将凭证发我，以便及时核销，谢谢您的支持！"
+          },
+          {
+            "situation": "账单到期当日友好提醒（英文）",
+            "channel": "whatsapp",
+            "message": "Hi [Client Name] Team, this is Mei from Jingxiu Bakery. Your office breakfast catering invoice for this week (Total: ¥[Amount]) is due today. Please find the statement attached. Bank transfer details: [Bank/Alipay info]. Please share the receipt once settled. Thank you for your continued support!"
+          },
+          {
+            "situation": "逾期 3 天正式催款（中文）",
+            "channel": "whatsapp",
+            "message": "【锦绣面包房】紧急提醒：【客户名称】您好，您上周的早餐团餐账单（¥【金额】）已逾期 3 天。为了不影响下周一的正常早餐配送，请于本周五下午 17:00 前安排结清。如已汇款请忽略并发送凭证。祝好，梅姐。"
+          },
+          {
+            "situation": "逾期 3 天正式催款（英文）",
+            "channel": "whatsapp",
+            "message": "[Jingxiu Bakery] Payment Reminder: Hi [Client Name], your invoice of ¥[Amount] is now 3 days overdue. To ensure uninterrupted breakfast delivery for next week, please settle the payment by this Friday 5:00 PM. Kindly share the transfer receipt if paid. Best, Mei."
+          },
+          {
+            "situation": "逾期 7 天暂停配送通知（中文）",
+            "channel": "whatsapp",
+            "message": "【锦绣面包房通知】尊敬的【客户名称】：由于贵司截止目前（逾期 7 天）尚未结清 ¥【金额】的历史账款，根据本店运营规定，我们将暂停下周一（【日期】）起的早餐外送服务，直至账款结清。非常抱歉给您带来不便，期待您尽快安排财务处理。如有疑问请随时联系。"
+          },
+          {
+            "situation": "逾期 7 天暂停配送通知（英文）",
+            "channel": "whatsapp",
+            "message": "[Jingxiu Bakery Notice] Dear [Client Name], as your invoice of ¥[Amount] remains unpaid after 7 days past due, we regret to inform you that we must suspend your upcoming breakfast deliveries starting next Monday until the balance is cleared. Apologies for any inconvenience and thank you for your prompt action."
+          }
+        ],
+        "sevenDaySequence": [
+          {
+            "day": 1,
+            "action": "盘点所有历史未结账款，按客户逾期天数分类，并向逾期超3天的客户发送标准催款信息。",
+            "owner": "owner",
+            "copy": "执行全量账单盘点，使用脚本库中的模板向所有超期客户发送微信/WhatsApp催款，停止深夜私聊。"
+          },
+          {
+            "day": 2,
+            "action": "制定并下发《锦绣面包房大客户预付费与信用管理政策》至所有企业客户。",
+            "owner": "owner",
+            "copy": "公告新规：即日起所有企业团餐需提前1个工作日全额支付。发送双语通知给所有在册客户。"
+          },
+          {
+            "day": 3,
+            "action": "核对银行账户与微信/支付宝收款记录，对已回款客户进行对账销账。",
+            "owner": "staff",
+            "copy": "核对第1-2天催收回款的资金，更新台账，标记已清账客户。"
+          },
+          {
+            "day": 4,
+            "action": "对仍未回应或逾期达 7 天的客户下达最后通牒及暂停配送预警。",
+            "owner": "owner",
+            "copy": "发送逾期7天暂停配送通知（中英文脚本），明确告知下周一断供节点。"
+          },
+          {
+            "day": 5,
+            "action": "落实下周订单的预付款审核。无预付款凭证的订单，直接取消备货计划。",
+            "owner": "staff",
+            "copy": "检查下周排单表：未完成预付款且逾期未清的客户，直接在生产系统标记‘暂停排单’。"
+          },
+          {
+            "day": 6,
+            "action": "复盘本周催收成果，建立每周五固定对账日机制。",
+            "owner": "owner",
+            "copy": "统计本周回收现金流金额，评估断供政策执行情况，调整店员每周五固定对账流程。"
+          },
+          {
+            "day": 7,
+            "action": "建立自动化日历提醒，设定未来每笔账单到期日自动触发催款模板。",
+            "owner": "agent",
+            "copy": "在店铺管理日历中录入所有企业客户的账单生成日、到期日与跟进节点。"
+          }
+        ],
+        "metricsToWatch": [
+          "应收账款周转天数（DSO）：目标从目前的 21 天压缩至 7 天以内。",
+          "坏账率 / 长期拖欠订单占比：目标降至 0%。",
+          "预付费订单合规率：目标 100% 落实配送前付款。",
+          "店主个人夜间工作时间：杜绝晚上 21:00 后的催款沟通，实现准时下班。"
+        ],
+        "risks": [
+          "部分长期习惯账期的企业客户因不适应预付费政策而选择流失（此为良性筛选，可剔除低现金流风险客户）。",
+          "员工在执行‘断供’政策时可能面临客户现场抱怨，需统一话术：‘此为店面统一财务合规要求，请理解’。",
+          "双语客户沟通时误用语言模板，导致客户体验下降。"
+        ]
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 9423
+    },
+    {
+      "id": "86b299aa-0bef-495b-8772-91e93676ec03",
+      "at": "2026-08-17T11:49:50.745Z",
+      "agent": "collector",
+      "decision": "INVOICE_TERMS",
+      "rationale": "MossDesk Desk Sprint: Jingxiu Bakery B2B Collection System & Prepayment Policy ($129 USD)",
+      "payload": {
+        "terms": "net7",
+        "invoiceMemo": "MossDesk Desk Sprint: Jingxiu Bakery B2B Collection System & Prepayment Policy ($129 USD)",
+        "dunning": [
+          {
+            "day": 1,
+            "channel": "email",
+            "message": "Hi Mei, your MossDesk invoice of $129 USD for the Jingxiu Bakery collection playbook and bilingual payment policies is now due. You can settle via our secure payment link. Thank you!"
+          },
+          {
+            "day": 4,
+            "channel": "email",
+            "message": "Hi Mei, just a gentle reminder that your MossDesk invoice ($129 USD) is 3 days overdue. Please process payment at your earliest convenience to keep your account in good standing."
+          },
+          {
+            "day": 7,
+            "channel": "sms",
+            "message": "MossDesk Notice: Invoice of $129 USD is now 7 days overdue. Please settle immediately using your initial invoice link. Reach out if you have any questions."
+          }
+        ],
+        "waive": false
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 1937
+    },
+    {
+      "id": "75575c07-a3cb-454e-87a4-b0a65207c3f9",
+      "at": "2026-08-17T11:49:51.995Z",
+      "agent": "auditor",
+      "decision": "SHIP",
+      "rationale": "quality 95",
+      "payload": {
+        "verdict": "SHIP",
+        "qualityScore": 95,
+        "issues": [],
+        "humanNeeded": false,
+        "humanReason": ""
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 1243
+    }
+  ],
+  "payment": {
+    "amountUsd": 129,
+    "status": "invoiced"
+  },
+  "scout": {
+    "businessOneLiner": "Jingxiu Bakery is a boutique cafe and bakery on Jingxiu Road in Chengdu providing office breakfast catering services.",
+    "customerWho": "Mei Chen, owner-operator managing production and client relations with a lean staff of two.",
+    "corePain": "Delayed B2B invoice payments causing cash flow drag, compounded by the emotional burden of manual midnight WeChat follow-ups.",
+    "constraints": [
+      "Staff of 2 with limited administrative bandwidth",
+      "No price discounts or margin concessions",
+      "Must communicate professionally in both Chinese and English"
+    ],
+    "successLooksLike": "An automated, polite bilingual collection sequence that reduces overdue invoices to under 7 days, paired with a firm prepayment policy to stop production for chronic non-payers.",
+    "riskFlags": [
+      "High exposure to cash flow crunches due to 3-week payment delays on perishable goods",
+      "Operational burnout from mixing personal messaging (WeChat) with business debt collection at midnight"
+    ]
+  },
+  "pricing": {
+    "takeJob": true,
+    "rejectReason": "",
+    "sku": "desk_sprint",
+    "priceUsd": 129,
+    "complexity": 3,
+    "marginNote": "Well within gross margin targets for a one-time operations setup involving bilingual templates and policy design.",
+    "rationale": "Complexity is rated 3 due to the need for bilingual (Chinese/English) templates and a clear credit policy for B2B catering. Fits the desk_sprint SKU as it is a one-time deliverable for collection workflows and prepayment rules."
+  },
+  "deliverable": {
+    "playbookTitle": "锦绣面包房 B2B 早餐外送账款催收与预付费管理系统",
+    "situationSummary": "锦绣面包房位于成都锦绣路，主要为周边写字楼提供早餐外送与团餐服务。目前面临严重的企业客户账款拖欠问题（平均拖欠长达3周），且店主梅姐长期在深夜通过微信私信催款，不仅于事无补，还增加了运营焦虑。本次7天执行方案旨在建立标准化的双语账款催收序列，并确立严格的“无预付款不备货”信用规则，彻底解决现金流占用与深夜沟通的痛点。",
+    "operatingRules": [
+      "所有新企业客户首次订单及后续常规订单，必须在配送前1个工作日完成 100% 预付款支付，方可排单生产。",
+      "取消所有深夜微信催款；所有催款与对账函严格在工作日上午 10:00 至下午 17:00 之间通过微信或邮件发送。",
+      "逾期超过 7 天的客户自动暂停后续早餐配送资格，直至结清历史账款并转为现结或预付模式。",
+      "保持双语沟通标准：根据客户签约时使用的语言（中文/英文），严格对应发送标准模板，杜绝情绪化沟通。"
+    ],
+    "scripts": [
+      {
+        "situation": "账单到期当日友好提醒（中文）",
+        "channel": "whatsapp",
+        "message": "尊敬的【客户名称】团队：您好！锦绣面包房本周早餐外送已全部送达。本期账单金额共计 ¥【金额】（详见附件对账单）。按照财务惯例，请于今日内安排对公转账。账号为：【银行账号/支付宝/微信】。汇款后请将凭证发我，以便及时核销，谢谢您的支持！"
+      },
+      {
+        "situation": "账单到期当日友好提醒（英文）",
+        "channel": "whatsapp",
+        "message": "Hi [Client Name] Team, this is Mei from Jingxiu Bakery. Your office breakfast catering invoice for this week (Total: ¥[Amount]) is due today. Please find the statement attached. Bank transfer details: [Bank/Alipay info]. Please share the receipt once settled. Thank you for your continued support!"
+      },
+      {
+        "situation": "逾期 3 天正式催款（中文）",
+        "channel": "whatsapp",
+        "message": "【锦绣面包房】紧急提醒：【客户名称】您好，您上周的早餐团餐账单（¥【金额】）已逾期 3 天。为了不影响下周一的正常早餐配送，请于本周五下午 17:00 前安排结清。如已汇款请忽略并发送凭证。祝好，梅姐。"
+      },
+      {
+        "situation": "逾期 3 天正式催款（英文）",
+        "channel": "whatsapp",
+        "message": "[Jingxiu Bakery] Payment Reminder: Hi [Client Name], your invoice of ¥[Amount] is now 3 days overdue. To ensure uninterrupted breakfast delivery for next week, please settle the payment by this Friday 5:00 PM. Kindly share the transfer receipt if paid. Best, Mei."
+      },
+      {
+        "situation": "逾期 7 天暂停配送通知（中文）",
+        "channel": "whatsapp",
+        "message": "【锦绣面包房通知】尊敬的【客户名称】：由于贵司截止目前（逾期 7 天）尚未结清 ¥【金额】的历史账款，根据本店运营规定，我们将暂停下周一（【日期】）起的早餐外送服务，直至账款结清。非常抱歉给您带来不便，期待您尽快安排财务处理。如有疑问请随时联系。"
+      },
+      {
+        "situation": "逾期 7 天暂停配送通知（英文）",
+        "channel": "whatsapp",
+        "message": "[Jingxiu Bakery Notice] Dear [Client Name], as your invoice of ¥[Amount] remains unpaid after 7 days past due, we regret to inform you that we must suspend your upcoming breakfast deliveries starting next Monday until the balance is cleared. Apologies for any inconvenience and thank you for your prompt action."
+      }
+    ],
+    "sevenDaySequence": [
+      {
+        "day": 1,
+        "action": "盘点所有历史未结账款，按客户逾期天数分类，并向逾期超3天的客户发送标准催款信息。",
+        "owner": "owner",
+        "copy": "执行全量账单盘点，使用脚本库中的模板向所有超期客户发送微信/WhatsApp催款，停止深夜私聊。"
+      },
+      {
+        "day": 2,
+        "action": "制定并下发《锦绣面包房大客户预付费与信用管理政策》至所有企业客户。",
+        "owner": "owner",
+        "copy": "公告新规：即日起所有企业团餐需提前1个工作日全额支付。发送双语通知给所有在册客户。"
+      },
+      {
+        "day": 3,
+        "action": "核对银行账户与微信/支付宝收款记录，对已回款客户进行对账销账。",
+        "owner": "staff",
+        "copy": "核对第1-2天催收回款的资金，更新台账，标记已清账客户。"
+      },
+      {
+        "day": 4,
+        "action": "对仍未回应或逾期达 7 天的客户下达最后通牒及暂停配送预警。",
+        "owner": "owner",
+        "copy": "发送逾期7天暂停配送通知（中英文脚本），明确告知下周一断供节点。"
+      },
+      {
+        "day": 5,
+        "action": "落实下周订单的预付款审核。无预付款凭证的订单，直接取消备货计划。",
+        "owner": "staff",
+        "copy": "检查下周排单表：未完成预付款且逾期未清的客户，直接在生产系统标记‘暂停排单’。"
+      },
+      {
+        "day": 6,
+        "action": "复盘本周催收成果，建立每周五固定对账日机制。",
+        "owner": "owner",
+        "copy": "统计本周回收现金流金额，评估断供政策执行情况，调整店员每周五固定对账流程。"
+      },
+      {
+        "day": 7,
+        "action": "建立自动化日历提醒，设定未来每笔账单到期日自动触发催款模板。",
+        "owner": "agent",
+        "copy": "在店铺管理日历中录入所有企业客户的账单生成日、到期日与跟进节点。"
+      }
+    ],
+    "metricsToWatch": [
+      "应收账款周转天数（DSO）：目标从目前的 21 天压缩至 7 天以内。",
+      "坏账率 / 长期拖欠订单占比：目标降至 0%。",
+      "预付费订单合规率：目标 100% 落实配送前付款。",
+      "店主个人夜间工作时间：杜绝晚上 21:00 后的催款沟通，实现准时下班。"
+    ],
+    "risks": [
+      "部分长期习惯账期的企业客户因不适应预付费政策而选择流失（此为良性筛选，可剔除低现金流风险客户）。",
+      "员工在执行‘断供’政策时可能面临客户现场抱怨，需统一话术：‘此为店面统一财务合规要求，请理解’。",
+      "双语客户沟通时误用语言模板，导致客户体验下降。"
+    ]
+  },
+  "collection": {
+    "terms": "net7",
+    "invoiceMemo": "MossDesk Desk Sprint: Jingxiu Bakery B2B Collection System & Prepayment Policy ($129 USD)",
+    "dunning": [
+      {
+        "day": 1,
+        "channel": "email",
+        "message": "Hi Mei, your MossDesk invoice of $129 USD for the Jingxiu Bakery collection playbook and bilingual payment policies is now due. You can settle via our secure payment link. Thank you!"
+      },
+      {
+        "day": 4,
+        "channel": "email",
+        "message": "Hi Mei, just a gentle reminder that your MossDesk invoice ($129 USD) is 3 days overdue. Please process payment at your earliest convenience to keep your account in good standing."
+      },
+      {
+        "day": 7,
+        "channel": "sms",
+        "message": "MossDesk Notice: Invoice of $129 USD is now 7 days overdue. Please settle immediately using your initial invoice link. Reach out if you have any questions."
+      }
+    ],
+    "waive": false
+  },
+  "audit": {
+    "verdict": "SHIP",
+    "qualityScore": 95,
+    "issues": [],
+    "humanNeeded": false,
+    "humanReason": ""
+  }
+}

@@ -36,6 +36,15 @@ export default async function HomePage() {
             lights up once MossDeskInvoice is on chain 1952.
           </p>
         )}
+        <p className="muted" style={{ marginTop: 10 }}>
+          <Link href="/job/9f884843-be4d-4829-819e-bcaaa670c9eb">
+            Open the Jingxiu Bakery job
+          </Link>
+          {" · "}
+          <Link href="/pay/9f884843-be4d-4829-819e-bcaaa670c9eb">
+            Settle it in OKB
+          </Link>
+        </p>
       </section>
 
       <section className="section" id="how">

@@ -1,0 +1,357 @@
+{
+  "id": "9f884843-be4d-4829-819e-bcaaa670c9eb",
+  "createdAt": "2026-08-21T04:07:42.351Z",
+  "updatedAt": "2026-08-21T04:07:55.283Z",
+  "status": "awaiting_payment",
+  "currentAgent": null,
+  "customer": {
+    "name": "Mei Chen",
+    "email": "mei@jingxiubakery.example",
+    "businessName": "Jingxiu Bakery",
+    "industry": "Cafe / bakery / restaurant",
+    "location": "Chengdu, Jingxiu Road"
+  },
+  "problem": "We cater office breakfasts but half the invoices sit unpaid for 3 weeks. I chase on WeChat at midnight and still feel rude. Need a polite collection sequence and a rule for when to stop cooking for non-payers.",
+  "constraints": "Staff of 2, no discounts, Chinese and English customers",
+  "logs": [
+    {
+      "id": "94751b63-48c4-4ef1-9059-6aec47a6a5c7",
+      "at": "2026-08-21T04:07:44.591Z",
+      "agent": "scout",
+      "decision": "INTAKE_COMPLETE",
+      "rationale": "Corporate breakfast catering clients routinely delay payment by three weeks, forcing Mei to spend personal time chasing debts on WeChat while risking customer friction.",
+      "payload": {
+        "businessOneLiner": "Jingxiu Bakery on Jingxiu Road in Chengdu provides office breakfast catering with cash flow strain due to delayed B2B invoice collections.",
+        "customerWho": "Mei Chen, owner-operator of Jingxiu Bakery, managing production and customer relations with a small staff of two.",
+        "corePain": "Corporate breakfast catering clients routinely delay payment by three weeks, forcing Mei to spend personal time chasing debts on WeChat while risking customer friction.",
+        "constraints": [
+          "Staff of 2 total",
+          "No price discounts allowed",
+          "Must support bilingual (Chinese and English) operations"
+        ],
+        "successLooksLike": "Automated, polite bilingual collection sequences deployed via WeChat/email, backed by a strict credit policy that halts new catering orders when accounts exceed payment terms.",
+        "riskFlags": [
+          "High working capital tied up in unpaid B2B receivables given a tiny 2-person team",
+          "Risk of losing recurring corporate catering revenue if credit control is introduced abruptly",
+          "Founder burnout from manual, late-night debt chasing"
+        ]
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 2234
+    },
+    {
+      "id": "415a5d55-32fe-43f9-96ff-475c0f476779",
+      "at": "2026-08-21T04:07:46.089Z",
+      "agent": "pricer",
+      "decision": "SET_PRICE",
+      "rationale": "Jingxiu Bakery faces a moderate operational complexity (level 3) regarding B2B receivables and credit control. A one-time Desk Sprint will deliver a polite, bilingual WeChat/email collection sequence and a hard rule for halting new catering orders on overdue accounts, directly solving founder burnout without requiring legal intervention.",
+      "payload": {
+        "takeJob": true,
+        "rejectReason": null,
+        "sku": "desk_sprint",
+        "priceUsd": 79,
+        "complexity": 3,
+        "marginNote": "Clear operational scope for bilingual payment templates and credit rules within a standard 1-hour build.",
+        "rationale": "Jingxiu Bakery faces a moderate operational complexity (level 3) regarding B2B receivables and credit control. A one-time Desk Sprint will deliver a polite, bilingual WeChat/email collection sequence and a hard rule for halting new catering orders on overdue accounts, directly solving founder burnout without requiring legal intervention."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 1494
+    },
+    {
+      "id": "76824be6-a89a-4e1c-b2af-3ac2939ebc4b",
+      "at": "2026-08-21T04:07:51.698Z",
+      "agent": "operator",
+      "decision": "PACKAGE_READY",
+      "rationale": "Jingxiu Bakery B2B Breakfast Catering Cash Flow & Collection System",
+      "payload": {
+        "playbookTitle": "Jingxiu Bakery B2B Breakfast Catering Cash Flow & Collection System",
+        "situationSummary": "Jingxiu Bakery is bleeding working capital because corporate breakfast catering clients pay invoices 3 weeks late. Mei Chen is chasing debts manually on WeChat at midnight. We are implementing a strict credit policy, upfront deposit rules, and a polite, automated bilingual collection sequence to fix cash flow without awkwardness or lost clients.",
+        "operatingRules": [
+          "No unpaid catering orders: All recurring corporate clients must keep accounts within net-7 days or provide a credit card on file.",
+          "The 3-Strike Rule: Invoices are due upon receipt (or Net-7 max). Invoice 1 is sent on delivery day; Reminder 1 at Day 3; Reminder 2 (hard stop warning) at Day 7.",
+          "Immediate Kitchen Halt: If an invoice is 10 days overdue, staff must not accept or prep any new catering orders for that company until cleared.",
+          "Zero Discounts: Never offer price cuts for late payment settlements. Protect Jingxiu Bakery's margins."
+        ],
+        "scripts": [
+          {
+            "situation": "Day 3 Friendly Payment Reminder (WeChat / WhatsApp)",
+            "channel": "whatsapp",
+            "message": "Hi [Contact Name], hope the team enjoyed this week's breakfast spread from Jingxiu Bakery! Just a gentle note that invoice #[Invoice Number] for [Amount] RMB is now due. You can scan the WeChat Pay/Alipay QR code attached or bank transfer. Thank you for supporting our small business! 锦绣面包房感谢您的支持！"
+          },
+          {
+            "situation": "Day 7 Firm Payment Reminder & Future Order Hold (Email / WeChat)",
+            "channel": "email",
+            "message": "Subject: Overdue Invoice #[Invoice Number] - Jingxiu Bakery / 锦绣面包房催款通知\n\nDear [Contact Name],\n\nWe love catering for [Company Name], but as a small team of two, we rely on timely payments to keep our bakery running.\n\nInvoice #[Invoice Number] for [Amount] RMB is now 7 days overdue. Please settle this by end of day today so we can continue to confirm your upcoming catering schedule for next week.\n\nThank you for your prompt action and understanding.\n\nBest regards,\nMei Chen | Jingxiu Bakery"
+          },
+          {
+            "situation": "Day 10 Kitchen Stop Notice (WeChat / In-Person)",
+            "channel": "whatsapp",
+            "message": "Hi [Contact Name], per our bakery policy, we cannot prep new catering orders while invoice #[Invoice Number] remains unpaid past 10 days. Once the transfer of [Amount] RMB is completed and receipt is sent here, we will immediately resume your orders. Thank you for understanding our small team's limits!"
+          }
+        ],
+        "sevenDaySequence": [
+          {
+            "day": 1,
+            "action": "Audit all outstanding corporate invoices and tag accounts into Net-7 or Pre-pay categories.",
+            "owner": "owner",
+            "copy": "Pull all invoices from the last 30 days. List company name, contact person, amount owed, and days overdue."
+          },
+          {
+            "day": 2,
+            "action": "Send Day 3 friendly reminder scripts to all currently overdue accounts via WeChat and Email.",
+            "owner": "owner",
+            "copy": "Copy-paste Day 3 bilingual script for all accounts past 3 days."
+          },
+          {
+            "day": 3,
+            "action": "Implement the new invoicing workflow: Invoice must be sent concurrently with the delivery dispatch photo.",
+            "owner": "staff",
+            "copy": "When packing morning delivery boxes, attach the printed or digital invoice immediately to the delivery notification message."
+          },
+          {
+            "day": 4,
+            "action": "Review incoming payments and flag any accounts hitting the 7-day mark.",
+            "owner": "owner",
+            "copy": "Check bank accounts and WeChat Pay merchant wallet. Match incoming funds to invoice numbers."
+          },
+          {
+            "day": 5,
+            "action": "Send Day 7 firm reminders to stubborn accounts and warn them about next week's order freeze.",
+            "owner": "owner",
+            "copy": "Send Day 7 email/WeChat script to all accounts at 7+ days overdue."
+          },
+          {
+            "day": 6,
+            "action": "Brief staff on the 10-day kitchen stop rule so they stop accepting orders from delinquent accounts without Mei's approval.",
+            "owner": "owner",
+            "copy": "Tell staff: 'If [Company X] tries to book next week and invoice #104 is unpaid, tell them Mei is reviewing new orders after payment clears.'"
+          },
+          {
+            "day": 7,
+            "action": "Establish weekly Friday afternoon reconciliation routine to prevent future invoice creep.",
+            "owner": "owner",
+            "copy": "Block 30 minutes every Friday at 4 PM to check receivables and fire off automated reminders."
+          }
+        ],
+        "metricsToWatch": [
+          "Average Days Sales Outstanding (DSO): Target reduction from 21 days down to 7 days.",
+          "Total Outstanding B2B Receivables: Target cap under 5,000 RMB at any given time.",
+          "Midnight Debt Chasing Hours: Target zero messages sent past 8:00 PM."
+        ],
+        "risks": [
+          "Corporate clients pushing back against stricter payment terms, threatening to switch to another bakery (Mitigate by holding firm: your margins and time are worth more than bad-paying clients).",
+          "Staff accidentally fulfilling a catering order for an overdue account (Mitigate by maintaining a shared, visible blacklist/red-list on the kitchen whiteboard)."
+        ]
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 5605
+    },
+    {
+      "id": "00e11d16-0f31-49f1-9389-69c41ab5c578",
+      "at": "2026-08-21T04:07:54.010Z",
+      "agent": "collector",
+      "decision": "INVOICE_TERMS",
+      "rationale": "MossDesk Desk Sprint service fee for Jingxiu Bakery B2B cash flow and collection system. The invoice is minted as an AI-issued trade receivable on X Layer and paid in OKB.",
+      "payload": {
+        "terms": "net7",
+        "invoiceMemo": "MossDesk Desk Sprint service fee for Jingxiu Bakery B2B cash flow and collection system. The invoice is minted as an AI-issued trade receivable on X Layer and paid in OKB.",
+        "dunning": [
+          {
+            "day": 1,
+            "channel": "email",
+            "message": "Hi Mei, your MossDesk invoice for the Jingxiu Bakery collection system ($79 USD equivalent in OKB) is now issued. As discussed, we've set you up on net7 terms given your cash-tight B2B receivables cycle. Please settle via X Layer in OKB at your earliest convenience."
+          },
+          {
+            "day": 4,
+            "channel": "email",
+            "message": "Hello Mei, just a friendly reminder regarding your MossDesk invoice for the B2B collection playbook. Please process your OKB payment on X Layer to keep your account in good standing."
+          },
+          {
+            "day": 7,
+            "channel": "email",
+            "message": "Hi Mei, your MossDesk invoice is due today under your net7 terms. Please finalize the OKB transfer on X Layer. Reach out if you need any assistance with the transaction."
+          }
+        ],
+        "waive": false
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 2308
+    },
+    {
+      "id": "88ec31d8-4e30-40a0-be88-8038c41a1aa7",
+      "at": "2026-08-21T04:07:55.280Z",
+      "agent": "auditor",
+      "decision": "SHIP",
+      "rationale": "quality 92",
+      "payload": {
+        "verdict": "SHIP",
+        "qualityScore": 92,
+        "issues": [],
+        "humanNeeded": false,
+        "humanReason": ""
+      },
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 1265
+    },
+    {
+      "id": "74307c8d-ab34-4294-bcfc-2274b0e0bebb",
+      "at": "2026-08-21T04:07:55.283Z",
+      "agent": "collector",
+      "decision": "RWA_READY",
+      "rationale": "Receivable params bound. Customer wallet will mint and settle on X Layer.",
+      "payload": {
+        "jobIdBytes32": "0x0df7283c7ee92606f26b0577ef5404b924f8c41d7b3f69ddaebf34df754e048c",
+        "amountWei": "7900000000000000",
+        "memo": "Jingxiu Bakery B2B Breakfast Catering Cash Flow & Collection System · Jingxiu Bakery · $79",
+        "tapeHash": "0xece45850d4b88e5967f797b890e62c5395fe13c57d00813b0afc324cb35e48cd"
+      },
+      "model": "xlayer-1952",
+      "latencyMs": 0
+    }
+  ],
+  "payment": {
+    "amountUsd": 79,
+    "status": "invoiced",
+    "chain": {
+      "jobIdBytes32": "0x0df7283c7ee92606f26b0577ef5404b924f8c41d7b3f69ddaebf34df754e048c",
+      "amountWei": "7900000000000000",
+      "memo": "Jingxiu Bakery B2B Breakfast Catering Cash Flow & Collection System · Jingxiu Bakery · $79",
+      "tapeHash": "0xece45850d4b88e5967f797b890e62c5395fe13c57d00813b0afc324cb35e48cd",
+      "status": "ready"
+    }
+  },
+  "scout": {
+    "businessOneLiner": "Jingxiu Bakery on Jingxiu Road in Chengdu provides office breakfast catering with cash flow strain due to delayed B2B invoice collections.",
+    "customerWho": "Mei Chen, owner-operator of Jingxiu Bakery, managing production and customer relations with a small staff of two.",
+    "corePain": "Corporate breakfast catering clients routinely delay payment by three weeks, forcing Mei to spend personal time chasing debts on WeChat while risking customer friction.",
+    "constraints": [
+      "Staff of 2 total",
+      "No price discounts allowed",
+      "Must support bilingual (Chinese and English) operations"
+    ],
+    "successLooksLike": "Automated, polite bilingual collection sequences deployed via WeChat/email, backed by a strict credit policy that halts new catering orders when accounts exceed payment terms.",
+    "riskFlags": [
+      "High working capital tied up in unpaid B2B receivables given a tiny 2-person team",
+      "Risk of losing recurring corporate catering revenue if credit control is introduced abruptly",
+      "Founder burnout from manual, late-night debt chasing"
+    ]
+  },
+  "pricing": {
+    "takeJob": true,
+    "rejectReason": null,
+    "sku": "desk_sprint",
+    "priceUsd": 79,
+    "complexity": 3,
+    "marginNote": "Clear operational scope for bilingual payment templates and credit rules within a standard 1-hour build.",
+    "rationale": "Jingxiu Bakery faces a moderate operational complexity (level 3) regarding B2B receivables and credit control. A one-time Desk Sprint will deliver a polite, bilingual WeChat/email collection sequence and a hard rule for halting new catering orders on overdue accounts, directly solving founder burnout without requiring legal intervention."
+  },
+  "deliverable": {
+    "playbookTitle": "Jingxiu Bakery B2B Breakfast Catering Cash Flow & Collection System",
+    "situationSummary": "Jingxiu Bakery is bleeding working capital because corporate breakfast catering clients pay invoices 3 weeks late. Mei Chen is chasing debts manually on WeChat at midnight. We are implementing a strict credit policy, upfront deposit rules, and a polite, automated bilingual collection sequence to fix cash flow without awkwardness or lost clients.",
+    "operatingRules": [
+      "No unpaid catering orders: All recurring corporate clients must keep accounts within net-7 days or provide a credit card on file.",
+      "The 3-Strike Rule: Invoices are due upon receipt (or Net-7 max). Invoice 1 is sent on delivery day; Reminder 1 at Day 3; Reminder 2 (hard stop warning) at Day 7.",
+      "Immediate Kitchen Halt: If an invoice is 10 days overdue, staff must not accept or prep any new catering orders for that company until cleared.",
+      "Zero Discounts: Never offer price cuts for late payment settlements. Protect Jingxiu Bakery's margins."
+    ],
+    "scripts": [
+      {
+        "situation": "Day 3 Friendly Payment Reminder (WeChat / WhatsApp)",
+        "channel": "whatsapp",
+        "message": "Hi [Contact Name], hope the team enjoyed this week's breakfast spread from Jingxiu Bakery! Just a gentle note that invoice #[Invoice Number] for [Amount] RMB is now due. You can scan the WeChat Pay/Alipay QR code attached or bank transfer. Thank you for supporting our small business! 锦绣面包房感谢您的支持！"
+      },
+      {
+        "situation": "Day 7 Firm Payment Reminder & Future Order Hold (Email / WeChat)",
+        "channel": "email",
+        "message": "Subject: Overdue Invoice #[Invoice Number] - Jingxiu Bakery / 锦绣面包房催款通知\n\nDear [Contact Name],\n\nWe love catering for [Company Name], but as a small team of two, we rely on timely payments to keep our bakery running.\n\nInvoice #[Invoice Number] for [Amount] RMB is now 7 days overdue. Please settle this by end of day today so we can continue to confirm your upcoming catering schedule for next week.\n\nThank you for your prompt action and understanding.\n\nBest regards,\nMei Chen | Jingxiu Bakery"
+      },
+      {
+        "situation": "Day 10 Kitchen Stop Notice (WeChat / In-Person)",
+        "channel": "whatsapp",
+        "message": "Hi [Contact Name], per our bakery policy, we cannot prep new catering orders while invoice #[Invoice Number] remains unpaid past 10 days. Once the transfer of [Amount] RMB is completed and receipt is sent here, we will immediately resume your orders. Thank you for understanding our small team's limits!"
+      }
+    ],
+    "sevenDaySequence": [
+      {
+        "day": 1,
+        "action": "Audit all outstanding corporate invoices and tag accounts into Net-7 or Pre-pay categories.",
+        "owner": "owner",
+        "copy": "Pull all invoices from the last 30 days. List company name, contact person, amount owed, and days overdue."
+      },
+      {
+        "day": 2,
+        "action": "Send Day 3 friendly reminder scripts to all currently overdue accounts via WeChat and Email.",
+        "owner": "owner",
+        "copy": "Copy-paste Day 3 bilingual script for all accounts past 3 days."
+      },
+      {
+        "day": 3,
+        "action": "Implement the new invoicing workflow: Invoice must be sent concurrently with the delivery dispatch photo.",
+        "owner": "staff",
+        "copy": "When packing morning delivery boxes, attach the printed or digital invoice immediately to the delivery notification message."
+      },
+      {
+        "day": 4,
+        "action": "Review incoming payments and flag any accounts hitting the 7-day mark.",
+        "owner": "owner",
+        "copy": "Check bank accounts and WeChat Pay merchant wallet. Match incoming funds to invoice numbers."
+      },
+      {
+        "day": 5,
+        "action": "Send Day 7 firm reminders to stubborn accounts and warn them about next week's order freeze.",
+        "owner": "owner",
+        "copy": "Send Day 7 email/WeChat script to all accounts at 7+ days overdue."
+      },
+      {
+        "day": 6,
+        "action": "Brief staff on the 10-day kitchen stop rule so they stop accepting orders from delinquent accounts without Mei's approval.",
+        "owner": "owner",
+        "copy": "Tell staff: 'If [Company X] tries to book next week and invoice #104 is unpaid, tell them Mei is reviewing new orders after payment clears.'"
+      },
+      {
+        "day": 7,
+        "action": "Establish weekly Friday afternoon reconciliation routine to prevent future invoice creep.",
+        "owner": "owner",
+        "copy": "Block 30 minutes every Friday at 4 PM to check receivables and fire off automated reminders."
+      }
+    ],
+    "metricsToWatch": [
+      "Average Days Sales Outstanding (DSO): Target reduction from 21 days down to 7 days.",
+      "Total Outstanding B2B Receivables: Target cap under 5,000 RMB at any given time.",
+      "Midnight Debt Chasing Hours: Target zero messages sent past 8:00 PM."
+    ],
+    "risks": [
+      "Corporate clients pushing back against stricter payment terms, threatening to switch to another bakery (Mitigate by holding firm: your margins and time are worth more than bad-paying clients).",
+      "Staff accidentally fulfilling a catering order for an overdue account (Mitigate by maintaining a shared, visible blacklist/red-list on the kitchen whiteboard)."
+    ]
+  },
+  "collection": {
+    "terms": "net7",
+    "invoiceMemo": "MossDesk Desk Sprint service fee for Jingxiu Bakery B2B cash flow and collection system. The invoice is minted as an AI-issued trade receivable on X Layer and paid in OKB.",
+    "dunning": [
+      {
+        "day": 1,
+        "channel": "email",
+        "message": "Hi Mei, your MossDesk invoice for the Jingxiu Bakery collection system ($79 USD equivalent in OKB) is now issued. As discussed, we've set you up on net7 terms given your cash-tight B2B receivables cycle. Please settle via X Layer in OKB at your earliest convenience."
+      },
+      {
+        "day": 4,
+        "channel": "email",
+        "message": "Hello Mei, just a friendly reminder regarding your MossDesk invoice for the B2B collection playbook. Please process your OKB payment on X Layer to keep your account in good standing."
+      },
+      {
+        "day": 7,
+        "channel": "email",
+        "message": "Hi Mei, your MossDesk invoice is due today under your net7 terms. Please finalize the OKB transfer on X Layer. Reach out if you need any assistance with the transaction."
+      }
+    ],
+    "waive": false
+  },
+  "audit": {
+    "verdict": "SHIP",
+    "qualityScore": 92,
+    "issues": [],
+    "humanNeeded": false,
+    "humanReason": ""
+  }
+}
