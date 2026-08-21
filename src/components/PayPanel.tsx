@@ -11,6 +11,7 @@ import {
 } from "viem";
 import type { Job } from "@/lib/types";
 import { INVOICE_ABI, XLAYER_TESTNET_ID } from "@/lib/chain";
+import { getInjectedProvider, WALLET_MISSING } from "@/lib/wallet";
 
 type InvoicePayload = {
   ready: boolean;
@@ -35,15 +36,6 @@ type InvoicePayload = {
   };
 };
 
-type EthereumProvider = {
-  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
-};
-
-function getEthereum(): EthereumProvider | null {
-  if (typeof window === "undefined") return null;
-  return (window as unknown as { ethereum?: EthereumProvider }).ethereum ?? null;
-}
-
 export function PayPanel({ job }: { job: Job }) {
   const router = useRouter();
   const [invoice, setInvoice] = useState<InvoicePayload | null>(null);
@@ -64,7 +56,7 @@ export function PayPanel({ job }: { job: Job }) {
     return `${invoice.explorer}/tx/${txHash}`;
   }, [txHash, invoice]);
 
-  async function ensureChain(eth: EthereumProvider, payload: InvoicePayload) {
+  async function ensureChain(eth: EIP1193Provider, payload: InvoicePayload) {
     const hexId = `0x${payload.chainId.toString(16)}`;
     try {
       await eth.request({
@@ -94,9 +86,9 @@ export function PayPanel({ job }: { job: Job }) {
 
   async function connect() {
     setError("");
-    const eth = getEthereum();
+    const eth = getInjectedProvider();
     if (!eth) {
-      setError("Install OKX Wallet or MetaMask, then retry.");
+      setError(WALLET_MISSING);
       return;
     }
     if (!invoice) return;
@@ -111,8 +103,8 @@ export function PayPanel({ job }: { job: Job }) {
     setError("");
     setBusy(true);
     try {
-      const eth = getEthereum();
-      if (!eth) throw new Error("No injected wallet.");
+      const eth = getInjectedProvider();
+      if (!eth) throw new Error(WALLET_MISSING);
       if (!invoice?.contract) throw new Error("Invoice contract is not deployed yet.");
       await ensureChain(eth, invoice);
       const accounts = (await eth.request({
@@ -123,7 +115,7 @@ export function PayPanel({ job }: { job: Job }) {
       setAccount(from);
 
       const wallet = createWalletClient({
-        transport: custom(eth as EIP1193Provider),
+        transport: custom(eth),
       });
 
       const value = BigInt(invoice.params.amountWei);

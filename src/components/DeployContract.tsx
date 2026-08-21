@@ -1,21 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  createWalletClient,
-  custom,
-  type EIP1193Provider,
-} from "viem";
+import { createWalletClient, custom } from "viem";
 import { XLAYER_TESTNET_ID } from "@/lib/chain";
 
-type EthereumProvider = {
-  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
-};
-
-function getEthereum(): EthereumProvider | null {
-  if (typeof window === "undefined") return null;
-  return (window as unknown as { ethereum?: EthereumProvider }).ethereum ?? null;
-}
+import { getInjectedProvider, WALLET_MISSING } from "@/lib/wallet";
 
 export function DeployContract() {
   const [busy, setBusy] = useState(false);
@@ -36,8 +25,8 @@ export function DeployContract() {
     setError("");
     setBusy(true);
     try {
-      const eth = getEthereum();
-      if (!eth) throw new Error("Install OKX Wallet or MetaMask first.");
+      const eth = getInjectedProvider();
+      if (!eth) throw new Error(WALLET_MISSING);
 
       const bytecodeRes = await fetch("/api/chain/bytecode");
       const artifact = await bytecodeRes.json();
@@ -73,7 +62,7 @@ export function DeployContract() {
       if (!from) throw new Error("No account.");
 
       const wallet = createWalletClient({
-        transport: custom(eth as EIP1193Provider),
+        transport: custom(eth),
       });
       const hash = await wallet.deployContract({
         abi: artifact.abi,
