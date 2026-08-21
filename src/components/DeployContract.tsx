@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createWalletClient, custom } from "viem";
 import { XLAYER_TESTNET_ID } from "@/lib/chain";
 
-import { getInjectedProvider, WALLET_MISSING } from "@/lib/wallet";
+import { getInjectedProvider, sendPreparedTx, WALLET_MISSING } from "@/lib/wallet";
 
 export function DeployContract() {
   const [busy, setBusy] = useState(false);
@@ -29,8 +28,16 @@ export function DeployContract() {
       if (!eth) throw new Error(WALLET_MISSING);
 
       const bytecodeRes = await fetch("/api/chain/bytecode");
-      const artifact = await bytecodeRes.json();
+      const artifact = (await bytecodeRes.json()) as {
+        abi: unknown;
+        bytecode: `0x${string}`;
+        gas?: `0x${string}`;
+        gasPrice?: `0x${string}`;
+      };
       if (!bytecodeRes.ok) throw new Error("Could not load contract bytecode.");
+      if (!artifact.bytecode?.startsWith("0x")) {
+        throw new Error("Contract bytecode is missing.");
+      }
 
       const chainId = `0x${XLAYER_TESTNET_ID.toString(16)}`;
       try {
@@ -46,7 +53,10 @@ export function DeployContract() {
               chainId,
               chainName: "X Layer Testnet",
               nativeCurrency: { name: "OKB", symbol: "OKB", decimals: 18 },
-              rpcUrls: ["https://testrpc.xlayer.tech/terigon"],
+              rpcUrls: [
+                "https://testrpc.xlayer.tech/terigon",
+                "https://xlayertestrpc.okx.com/terigon",
+              ],
               blockExplorerUrls: [
                 "https://www.okx.com/web3/explorer/xlayer-test",
               ],
@@ -61,19 +71,21 @@ export function DeployContract() {
       const from = accounts[0] as `0x${string}`;
       if (!from) throw new Error("No account.");
 
-      const wallet = createWalletClient({
-        transport: custom(eth),
-      });
-      const hash = await wallet.deployContract({
-        abi: artifact.abi,
-        bytecode: artifact.bytecode,
-        account: from,
-        chain: {
-          id: XLAYER_TESTNET_ID,
-          name: "X Layer Testnet",
-          nativeCurrency: { name: "OKB", symbol: "OKB", decimals: 18 },
-          rpcUrls: { default: { http: ["https://testrpc.xlayer.tech/terigon"] } },
-        },
+      const balanceHex = (await eth.request({
+        method: "eth_getBalance",
+        params: [from, "latest"],
+      })) as string;
+      if (!balanceHex || BigInt(balanceHex) === BigInt(0)) {
+        throw new Error(
+          "This wallet has 0 OKB on X Layer testnet, so the wallet cannot estimate gas. Claim from the faucet, wait for the balance, then deploy again.",
+        );
+      }
+
+      const hash = await sendPreparedTx(eth, {
+        from,
+        data: artifact.bytecode,
+        gas: artifact.gas || "0x124f80",
+        gasPrice: artifact.gasPrice || "0x1312d01",
       });
       setResult(hash);
 
@@ -124,7 +136,9 @@ export function DeployContract() {
         <a href="https://web3.okx.com/xlayer/faucet" target="_blank" rel="noreferrer">
           faucet
         </a>
-        . One deploy is enough for the whole desk.
+        . One deploy is enough for the whole desk. If OKX greys out Confirm
+        with “网络费用估算失败”, open <strong>高级</strong> and set gas limit to
+        800000 — the tokens already arrived; the wallet just failed to estimate.
       </p>
       {result ? <p className="mono">tx {result}</p> : null}
       {error ? <p className="error">{error}</p> : null}

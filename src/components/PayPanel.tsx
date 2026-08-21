@@ -2,16 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  createWalletClient,
-  custom,
-  encodeFunctionData,
-  type EIP1193Provider,
-  type Hex,
-} from "viem";
+import { encodeFunctionData, type EIP1193Provider, type Hex } from "viem";
 import type { Job } from "@/lib/types";
-import { INVOICE_ABI, XLAYER_TESTNET_ID } from "@/lib/chain";
-import { getInjectedProvider, WALLET_MISSING } from "@/lib/wallet";
+import { INVOICE_ABI } from "@/lib/chain";
+import { getInjectedProvider, sendPreparedTx, WALLET_MISSING } from "@/lib/wallet";
 
 type InvoicePayload = {
   ready: boolean;
@@ -114,10 +108,6 @@ export function PayPanel({ job }: { job: Job }) {
       if (!from) throw new Error("Wallet returned no account.");
       setAccount(from);
 
-      const wallet = createWalletClient({
-        transport: custom(eth),
-      });
-
       const value = BigInt(invoice.params.amountWei);
       const data = invoice.alreadyIssued && invoice.invoiceId
         ? encodeFunctionData({
@@ -136,17 +126,22 @@ export function PayPanel({ job }: { job: Job }) {
             ],
           });
 
-      const hash = await wallet.sendTransaction({
-        account: from as `0x${string}`,
+      const feesRes = await fetch("/api/chain/fees", { cache: "no-store" });
+      const fees = (await feesRes.json()) as {
+        gasPrice?: `0x${string}`;
+        callGas?: `0x${string}`;
+      };
+      if (!feesRes.ok || !fees.gasPrice) {
+        throw new Error("Could not load X Layer gas price.");
+      }
+
+      const hash = await sendPreparedTx(eth, {
+        from: from as `0x${string}`,
         to: invoice.contract,
         data,
-        value,
-        chain: {
-          id: XLAYER_TESTNET_ID,
-          name: invoice.chainName,
-          nativeCurrency: { name: "OKB", symbol: "OKB", decimals: 18 },
-          rpcUrls: { default: { http: [invoice.rpcUrl] } },
-        },
+        value: `0x${value.toString(16)}`,
+        gas: fees.callGas || "0x7a120",
+        gasPrice: fees.gasPrice,
       });
       setTxHash(hash);
 
