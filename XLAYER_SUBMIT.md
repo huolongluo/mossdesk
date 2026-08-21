@@ -30,9 +30,9 @@ Posted 2026-08-21 from @huolongluo1 (copy status URL from profile if you resubmi
 `0x9ea023e3d77ad9f70f93a8806f5b0f638e1648de`  
 https://www.okx.com/web3/explorer/xlayer-test/address/0x9ea023e3d77ad9f70f93a8806f5b0f638e1648de
 
-**Demo job to settle**  
-https://mossdesk.vercel.app/pay/9f884843-be4d-4829-819e-bcaaa670c9eb
-https://mossdesk.vercel.app/job/9f884843-be4d-4829-819e-bcaaa670c9eb
+**Settlement (InvoiceSettled)**  
+https://www.okx.com/web3/explorer/xlayer-test/tx/0x69ef8500854407d3624f7b6ea6e3f7ec1de0e06db916f9871d85ad810935a630
+Invoice #1 · 0.0079 OKB · payer `0xbe9bc1041295ee6fcd5cd958214fb2985ad2eb17`
 
 ## Tweet (post from the project X account)
 

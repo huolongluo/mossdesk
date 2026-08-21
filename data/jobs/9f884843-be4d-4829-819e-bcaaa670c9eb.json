@@ -1,8 +1,8 @@
 {
   "id": "9f884843-be4d-4829-819e-bcaaa670c9eb",
   "createdAt": "2026-08-21T04:07:42.351Z",
-  "updatedAt": "2026-08-21T04:07:55.283Z",
-  "status": "awaiting_payment",
+  "updatedAt": "2026-08-21T04:25:11.297Z",
+  "status": "paid",
   "currentAgent": null,
   "customer": {
     "name": "Mei Chen",
@@ -207,18 +207,37 @@
       },
       "model": "xlayer-1952",
       "latencyMs": 0
+    },
+    {
+      "id": "18abf335-87ed-4b08-8d43-4b89d96c649d",
+      "at": "2026-08-21T04:25:11.296Z",
+      "agent": "collector",
+      "decision": "SETTLED_ON_XLAYER",
+      "rationale": "Invoice #1 paid by 0xbe9bC1041295ee6fCd5Cd958214fb2985ad2eB17",
+      "payload": {
+        "invoiceId": "1",
+        "payer": "0xbe9bC1041295ee6fCd5Cd958214fb2985ad2eB17",
+        "amountWei": "7900000000000000",
+        "blockNumber": "38827224"
+      },
+      "model": "xlayer-1952",
+      "latencyMs": 0
     }
   ],
   "payment": {
     "amountUsd": 79,
-    "status": "invoiced",
+    "status": "paid",
     "chain": {
       "jobIdBytes32": "0x0df7283c7ee92606f26b0577ef5404b924f8c41d7b3f69ddaebf34df754e048c",
       "amountWei": "7900000000000000",
       "memo": "Jingxiu Bakery B2B Breakfast Catering Cash Flow & Collection System · Jingxiu Bakery · $79",
       "tapeHash": "0xece45850d4b88e5967f797b890e62c5395fe13c57d00813b0afc324cb35e48cd",
-      "status": "ready"
-    }
+      "status": "settled",
+      "invoiceId": "1",
+      "settleTxHash": "0x69ef8500854407d3624f7b6ea6e3f7ec1de0e06db916f9871d85ad810935a630",
+      "payer": "0xbe9bC1041295ee6fCd5Cd958214fb2985ad2eB17"
+    },
+    "paidAt": "2026-08-21T04:25:11.296Z"
   },
   "scout": {
     "businessOneLiner": "Jingxiu Bakery on Jingxiu Road in Chengdu provides office breakfast catering with cash flow strain due to delayed B2B invoice collections.",
