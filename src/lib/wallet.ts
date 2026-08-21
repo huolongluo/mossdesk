@@ -1,6 +1,6 @@
 "use client";
 
-import type { EIP1193Provider } from "viem";
+import type { EIP1193Provider, Hex } from "viem";
 
 type Injected = EIP1193Provider & {
   isOkxWallet?: boolean;
@@ -58,14 +58,14 @@ export const WALLET_MISSING =
 export async function sendPreparedTx(
   eth: EIP1193Provider,
   tx: {
-    from: `0x${string}`;
-    to?: `0x${string}`;
-    data: `0x${string}`;
-    value?: `0x${string}`;
-    gas: `0x${string}`;
-    gasPrice: `0x${string}`;
+    from: Hex;
+    to?: Hex;
+    data: Hex;
+    value?: Hex;
+    gas: Hex;
+    gasPrice: Hex;
   },
-): Promise<`0x${string}`}> {
+): Promise<Hex> {
   const params: Record<string, string> = {
     from: tx.from,
     data: tx.data,
@@ -81,5 +81,5 @@ export async function sendPreparedTx(
   if (typeof hash !== "string" || !hash.startsWith("0x")) {
     throw new Error("Wallet did not return a transaction hash.");
   }
-  return hash as `0x${string}`;
+  return hash as Hex;
 }

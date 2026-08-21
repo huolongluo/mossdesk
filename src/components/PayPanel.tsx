@@ -13,7 +13,7 @@ type InvoicePayload = {
   chainName: string;
   rpcUrl: string;
   explorer: string;
-  contract: `0x${string}` | null;
+  contract: Hex | null;
   contractExplorer: string | null;
   amountUsd: number;
   amountOkb: string;
@@ -128,15 +128,15 @@ export function PayPanel({ job }: { job: Job }) {
 
       const feesRes = await fetch("/api/chain/fees", { cache: "no-store" });
       const fees = (await feesRes.json()) as {
-        gasPrice?: `0x${string}`;
-        callGas?: `0x${string}`;
+        gasPrice?: Hex;
+        callGas?: Hex;
       };
       if (!feesRes.ok || !fees.gasPrice) {
         throw new Error("Could not load X Layer gas price.");
       }
 
       const hash = await sendPreparedTx(eth, {
-        from: from as `0x${string}`,
+        from: from as Hex,
         to: invoice.contract,
         data,
         value: `0x${value.toString(16)}`,

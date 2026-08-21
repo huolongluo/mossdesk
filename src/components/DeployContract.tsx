@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Hex } from "viem";
 import { XLAYER_TESTNET_ID } from "@/lib/chain";
 
 import { getInjectedProvider, sendPreparedTx, WALLET_MISSING } from "@/lib/wallet";
@@ -30,9 +31,9 @@ export function DeployContract() {
       const bytecodeRes = await fetch("/api/chain/bytecode");
       const artifact = (await bytecodeRes.json()) as {
         abi: unknown;
-        bytecode: `0x${string}`;
-        gas?: `0x${string}`;
-        gasPrice?: `0x${string}`;
+        bytecode: Hex;
+        gas?: Hex;
+        gasPrice?: Hex;
       };
       if (!bytecodeRes.ok) throw new Error("Could not load contract bytecode.");
       if (!artifact.bytecode?.startsWith("0x")) {
@@ -68,7 +69,7 @@ export function DeployContract() {
       const accounts = (await eth.request({
         method: "eth_requestAccounts",
       })) as string[];
-      const from = accounts[0] as `0x${string}`;
+      const from = accounts[0] as Hex;
       if (!from) throw new Error("No account.");
 
       const balanceHex = (await eth.request({
