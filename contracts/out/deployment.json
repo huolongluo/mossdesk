@@ -1,0 +1,8 @@
+{
+  "network": "xlayer-testnet",
+  "chainId": 1952,
+  "address": "0x9ea023e3d77ad9f70f93a8806f5b0f638e1648de",
+  "txHash": "0xd277fc4020febc6741ce0c40c5e542007331e3ec92edfa30b16ed18892c4a7e1",
+  "deployer": "0xbe9bc1041295ee6fcd5cd958214fb2985ad2eb17",
+  "deployedAt": "2026-08-21T03:41:00.000Z"
+}

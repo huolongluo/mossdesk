@@ -91,11 +91,19 @@ export function DeployContract() {
 
       let address = "";
       for (let i = 0; i < 40; i++) {
-        const receipt = (await eth.request({
-          method: "eth_getTransactionReceipt",
-          params: [hash],
-        })) as { contractAddress?: string } | null;
-        if (receipt?.contractAddress) {
+        const receiptRes = await fetch(
+          `/api/chain/receipt?hash=${encodeURIComponent(hash)}`,
+          { cache: "no-store" },
+        );
+        const receipt = (await receiptRes.json()) as {
+          ready?: boolean;
+          status?: string;
+          contractAddress?: string;
+        };
+        if (receipt.ready && receipt.contractAddress) {
+          if (receipt.status === "reverted") {
+            throw new Error("Deploy transaction reverted on X Layer.");
+          }
           address = receipt.contractAddress;
           break;
         }

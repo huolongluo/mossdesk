@@ -4,6 +4,8 @@ import { promises as fs } from "fs";
 import path from "path";
 import { getDataDir } from "@/lib/data-dir";
 
+import { LIVE_INVOICE_ADDRESS } from "@/lib/chain";
+
 export type DeploymentRecord = {
   network: "xlayer-testnet";
   chainId: 1952;
@@ -29,7 +31,7 @@ export async function getDeployedAddress(): Promise<`0x${string}` | null> {
   } catch {
     /* not deployed yet */
   }
-  return null;
+  return LIVE_INVOICE_ADDRESS;
 }
 
 export async function saveDeployment(record: DeploymentRecord) {

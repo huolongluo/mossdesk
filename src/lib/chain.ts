@@ -126,10 +126,14 @@ export const INVOICE_ABI = [
 /** 0.0001 OKB per USD — faucet-friendly, still a real on-chain transfer. */
 export const WEI_PER_USD = BigInt("100000000000000");
 
+/** Live MossDeskInvoice on X Layer testnet (chain 1952). */
+export const LIVE_INVOICE_ADDRESS =
+  "0x9ea023e3d77ad9f70f93a8806f5b0f638e1648de" as `0x${string}`;
+
 export function invoiceAddress(): `0x${string}` | null {
   const raw = process.env.NEXT_PUBLIC_XLAYER_INVOICE_ADDRESS?.trim();
-  if (!raw || !raw.startsWith("0x") || raw.length !== 42) return null;
-  return raw as `0x${string}`;
+  if (raw && raw.startsWith("0x") && raw.length === 42) return raw as `0x${string}`;
+  return LIVE_INVOICE_ADDRESS;
 }
 
 export function explorerTx(hash: string) {
